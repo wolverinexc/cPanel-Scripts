@@ -1,0 +1,92 @@
+#!/bin/bash
+##Title:PHP Search (cPanel)
+##Author: Nick DiLernia
+##Version: 0.1.0
+
+#Set BASH Character Set Variable
+LC_ALL=C
+
+
+#Set Choice Toggle
+choice () {
+    local choice=$1
+    if [[ ${opts[choice]} ]] # toggle
+    then
+        opts[choice]=
+    else
+        opts[choice]=+
+    fi
+}
+
+#Main Menu
+PS3='Please enter your choice: '
+while :
+do
+    clear
+    options=("${opts[1]} Upload (post_max_size|upload_max_filesize)" "${opts[2]} Upload Extended (file_uploads|post_max_size|upload_max_filesize|upload_tmp_dir)" "${opts[3]} Memory (memory_limit)" "${opts[4]} Execution (max_execution_time|max_input_time)" "Done")
+    select opt in "${options[@]}"
+    do
+        case $opt in
+            "${opts[1]} Upload (post_max_size|upload_max_filesize)")
+                choice 1
+                PHPVAR1='post_max_size|upload_max_filesize'
+                break
+                ;;
+            "${opts[2]} Upload Extended (file_uploads|post_max_size|upload_max_filesize|upload_tmp_dir)")
+                choice 2
+                PHPVAR2='file_uploads|post_max_size|upload_max_filesize|upload_tmp_dir'
+                break
+                ;;
+            "${opts[3]} Memory (memory_limit)")
+                choice 3
+                PHPVAR3='memory_limit'
+                break
+                ;;
+            "${opts[4]} Execution (max_execution_time|max_input_time)")
+                choice 4
+                PHPVAR4='max_execution_time|max_input_time'
+                break
+                ;;           
+            "Done")
+                break 2
+                ;;
+            *) printf '%s\n' 'invalid option';;
+        esac
+    done
+done
+
+printf '%s\n' 'Options chosen:'
+for opt in "${!opts[@]}"
+do
+    if [[ ${opts[opt]} ]]
+    then
+        printf '%s\n' "Option $opt"
+    fi
+done
+
+if [[ $PHPVAR1 ]]
+    if [[ $PHPVAR2 ]]
+        if [[ $PHPVAR3 ]]
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
+            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR3""|xyzz'")
+        elif 
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR4""|xyzz'")
+    elif 
+        if [[ $PHPVAR3 ]]
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
+            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR3""|xyzz'")
+elif
+    if [[ $PHPVAR2 ]]
+        if [[ $PHPVAR3 ]]
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
+            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR3""|xyzz'")
+        elif 
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR4""|xyzz'")
+
+echo -e "$PHPVAR"
+
