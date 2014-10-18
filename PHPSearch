@@ -7,7 +7,7 @@
 LC_ALL=C
 
 #Set GPHP Variable (Global php.ini)
-GPHP=`php -i 2>/dev/null|fgrep "Loaded Configuration"|awk '{print $NF}'` && echo -e $GPHP
+GPHP=`php -i 2>/dev/null|fgrep "Loaded Configuration"|awk '{print $NF}'`
 
 
 #Function for Setting PHPVAR
