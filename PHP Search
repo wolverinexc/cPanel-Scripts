@@ -6,6 +6,62 @@
 #Set BASH Character Set Variable
 LC_ALL=C
 
+#Set GPHP Variable (Global php.ini)
+GPHP=`php.
+
+
+#Function for Setting PHPVAR
+function phpvar {
+if [[ $PHPVAR1 ]]
+    if [[ $PHPVAR2 ]]
+        if [[ $PHPVAR3 ]]
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
+            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR3""|xyzz'")
+        elif 
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR4""|xyzz'")
+    elif 
+        if [[ $PHPVAR3 ]]
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
+            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR3""|xyzz'")
+elif
+    if [[ $PHPVAR2 ]]
+        if [[ $PHPVAR3 ]]
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
+            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR3""|xyzz'")
+        elif 
+            if [[ $PHPVAR4 ]]
+                PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR4""|xyzz'")
+}
+
+
+#Function for Logging
+function logfile {
+PHPLOG='rootphpini.list.'$(date +%Y%m%d)'.log';
+exec > >(tee /root/$PHPLOG);
+main
+}
+
+#Function for No Logging
+function nolog {
+clear;
+echo -e '\nNot Logging\n';
+main
+}
+
+#Function for main search
+function main {
+clear
+echo -e '\nGlobal\n';
+egrep -Hiw "$PHPVAR" $GPHP |awk -F':' '{print $1 "\n" $2 "\n";}'| awk -F';' '{print $1}';
+echo -e '\nLocal\n';
+for LINI in `find /hom*/*/ -not -path "*mail/*" -not -path "*logs/*" -type f -name php.ini`; do egrep -Hiw "$PHPVAR" $LINI|awk -F':' '{print $1 "\n" $2 "\n";}'| awk -F';' '{print $1}'; done
+}
+
+
 
 #Set Choice Toggle
 choice () {
@@ -17,6 +73,7 @@ choice () {
         opts[choice]=+
     fi
 }
+
 
 #Main Menu
 PS3='Please enter your choice: '
@@ -64,29 +121,7 @@ do
     fi
 done
 
-if [[ $PHPVAR1 ]]
-    if [[ $PHPVAR2 ]]
-        if [[ $PHPVAR3 ]]
-            if [[ $PHPVAR4 ]]
-                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
-            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR3""|xyzz'")
-        elif 
-            if [[ $PHPVAR4 ]]
-                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR4""|xyzz'")
-    elif 
-        if [[ $PHPVAR3 ]]
-            if [[ $PHPVAR4 ]]
-                PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
-            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR3""|xyzz'")
-elif
-    if [[ $PHPVAR2 ]]
-        if [[ $PHPVAR3 ]]
-            if [[ $PHPVAR4 ]]
-                PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
-            elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR3""|xyzz'")
-        elif 
-            if [[ $PHPVAR4 ]]
-                PHPVAR=$(echo -e "'xyzz|""$PHPVAR2""|""$PHPVAR4""|xyzz'")
+
 
 echo -e "$PHPVAR"
 
