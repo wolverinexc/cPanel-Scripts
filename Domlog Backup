@@ -1,0 +1,81 @@
+#!/bin/bash
+#Domlog
+#Author: Nick DiLernia
+#Version 0.1.1
+
+###Set Variables
+
+#Version
+ver="0.1.1"
+
+#Size of domlogs
+domtotal=$(du -hcs /home/domlogs | fgrep -i total | awk '{print $1}')
+
+#Free Space in /home
+freespace=$(df -h /home | grep -v Filesystem |awk '{print $4" Avail in ""\""$6"\""}')
+
+
+###Colors
+black='\e[0;30m'
+dgray='\e[1;30m'
+lgray='\e[0;37m'
+blue='\e[0;34m'
+lblue='\e[1;34m'
+green='\e[0;32m'
+lgreen='\e[1;32m'
+cyan='\e[0;36m'
+lcyan='\e[1;36m'
+red='\e[0;31m'
+lred='\e[1;31m'
+purple='\e[0;35m'
+lpurple='\e[1;35m'
+brown='\e[0;33m'
+yellow='\e[1;33m'
+white='\e[1;37m'
+nocolor='\e[0m'
+
+
+###Script
+
+# Title
+echo -e "${yellow}Backup Domlogs ${blue}by ${yellow}Nick DiLernia ${blue}Version $ver"
+echo ""
+
+#Display Free Space in /home and Domlog size 
+echo -e "\n ${lcyan}Free Space: ${lred}$freespace"
+echo -e "\n ${lcyan}Domlog Dir Size: ${lred}$domtotal \n\n"
+
+#Change colors to "Green"
+tput setaf 2
+
+#Menu
+PS3='
+   Would you like to backup the Domlogs?: '
+echo ""
+options=("Backup" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Backup")
+            #Reset colors to "normal"
+            tput sgr0
+            #Zip domlogs
+            zip -r /home/domlogs.`date +%F.%H.%M`.zip /home/domlogs
+            echo -e "\n ${lblue}Backed up to ${green}/home/domlogs.`date +%F.%H.%M`.zip\n"
+            #Reset colors to "normal"
+            tput sgr0
+            break
+            ;;
+        "Quit")
+            echo -e "\n ${red}Did not backup \n"
+            #Reset colors to "normal"
+            tput sgr0
+            break
+            ;;
+        *) echo -e "{$red}Invalid Option";;
+    esac
+    
+#Reset colors to "normal"
+tput sgr0
+
+done
