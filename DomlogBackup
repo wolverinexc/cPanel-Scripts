@@ -38,7 +38,7 @@ nocolor='\e[0m'
 ###Script
 
 # Title
-echo -e "${yellow}Backup Domlogs ${lblue}by ${yellow}Nick DiLernia ${blue}Version $ver"
+echo -e "\n${yellow}Backup Domlogs ${lblue}by ${yellow}Nick DiLernia ${lblue}Version $ver"
 echo ""
 
 #Display Free Space in /home and Domlog size 
@@ -46,10 +46,10 @@ echo -e "\n ${lcyan}Free Space: ${lred}$freespace"
 echo -e "\n ${lcyan}Domlog Dir Size: ${lred}$domtotal \n\n"
 
 #Display Current Tweak Settings for Stats Logs
-echo -e "\n ${lcyan}Current Tweak Settings"
+echo -e "\n${lcyan}Current Tweak Settings"
 echo -e "\n${green}" 
 egrep -w 'default_archive-logs|default_remove-old-archived-logs|keeplogs|rotatelogs_size_threshhold_in_megabytes|keepstatslog' /var/cpanel/cpanel.config
-echo -e "\n ${lred}For more information on these settings, go to: \n ${lblue}https://documentation.cpanel.net/display/1144Docs/Tweak+Settings+-+Stats+and+Logs \n"
+echo -e "${lred}For more information on these settings, go to: \n ${lblue}https://documentation.cpanel.net/display/1144Docs/Tweak+Settings+-+Stats+and+Logs \n"
 
 
 #Change colors to "Green"
