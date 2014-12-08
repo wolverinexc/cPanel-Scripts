@@ -1,0 +1,63 @@
+#!/bin/bash
+#Domlog
+#Author: Nick DiLernia
+#Version 0.1.1
+
+###Set Variables
+domtotal=$(du -hcs /home/domlogs | fgrep -i total | awk '{print $1}')
+freespace=$(df -h /home | grep -v Filesystem |awk '{print $4" Avail in ""\""$6"\""}')
+ver="0.1.1"
+cpanelconf="/var/cpanel/cpanel.config"
+keeplogs=`grep "keeplogs=" $cpanelconf`
+rotatelogs=`grep "rotatelogs_size" $cpanelconf`
+archive=`grep "default_archive-logs" $cpanelconf`
+removearchive=`grep "default_remove-old" $cpanelconf`
+dumplogs=`grep "dumplogs" $cpanelconf`
+
+
+###Script
+
+#Title
+echo -e "\n\n*** Backup Domlogs by Nick DiLernia Version $ver *** \n\n"
+echo -e "------------"
+
+#Free Space
+echo -e "*** Disk Space *** \n\n"
+echo -e "\n Free Space: $freespace"
+echo -e "\n Domlog Dir Size: $domtotal \n\n"
+
+#Settings
+echo -e "*** Current Settings *** \n\n"
+echo -e "$keeplogs"
+echo -e "Keep log files at the end of the month \n\n"
+echo -e "$rotatelogs"
+echo -e "Log rotation size threshold \n\n"
+echo -e "$archive"
+echo -e "Archive logs in the user's home directory at the end of each stats run unless configured by the user \n\n"
+echo -e "$removearchive"
+echo -e "Remove the previous month's archived logs from the user's home directory at the end of each month unless configured by the user \n\n"
+echo -e "$dumplogs"
+echo -e "Delete each domain's access logs after stats run \n"
+echo -e "---------- \n\n\n"
+
+
+PS3='
+   Would you like to backup the Domlogs?: '
+echo ""
+options=("Backup" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Backup")
+            tar -czf /home/domlogs.`date +%F.%H.%M`.tar.gz /home/domlogs
+            echo -e "\n Backed up to /home/domlogs.`date +%F.%H.%M`.tar.gz\n"
+            break
+            ;;
+        "Quit")
+            echo -e "\n Did not backup \n"
+            break
+            ;;
+        *) echo -e "Invalid Option";;
+    esac
+
+done
