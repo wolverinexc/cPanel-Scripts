@@ -12,10 +12,7 @@ GPHP=`php -i 2>/dev/null|fgrep "Loaded Configuration"|awk '{print $NF}'`
 
 #Function for Setting PHPVAR
 function phpvar {
-if [[ $PHPVAR1 ]]
-    if [[ $PHPVAR2 ]]
-        if [[ $PHPVAR3 ]]
-            if [[ $PHPVAR4 ]]
+if [[ $PHPVAR1 ]] || [[ $PHPVAR2 ]] || [[ $PHPVAR3 ]] || [[ $PHPVAR4 ]]
                 PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR3""|""$PHPVAR4""|xyzz'")
             elif PHPVAR=$(echo -e "'xyzz|""$PHPVAR1""|""$PHPVAR2""|""$PHPVAR3""|xyzz'")
         elif 
